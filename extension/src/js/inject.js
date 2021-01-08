@@ -1,41 +1,41 @@
-import nengiConfig from '../../../common/nengiConfig';
-import main from '../../../client/runClient';
+import nengiConfig from '../../../common/nengiConfig'
+import main from '../../../client/runClient'
 
-console.log(nengiConfig);
-const SECRET_KEY_FORM_ID = 'secret-key-form';
+console.log(nengiConfig)
+const SECRET_KEY_FORM_ID = 'secret-key-form'
 
 let container;
 
-(function() {
-  const discordElement = document.getElementById("app-mount");
+(function () {
+    const discordElement = document.getElementById('app-mount')
 
-  const body = discordElement.parentElement;
+    const body = discordElement.parentElement
 
-  discordElement.style.height = '60%';
-  discordElement.style.float = 'top';
+    discordElement.style.height = '60%'
+    discordElement.style.float = 'top'
 
-  container = document.createElement("div");
-  container.id = "game-container";
-  container.style.height = '40%';
-  container.style.width = '100%';
-  container.style.position = 'absolute';
-  container.style.top = '60%';
-  container.style.backgroundColor = 'white';
+    container = document.createElement('div')
+    container.id = 'game-container'
+    container.style.height = '40%'
+    container.style.width = '100%'
+    container.style.position = 'absolute'
+    container.style.top = '60%'
+    container.style.backgroundColor = 'white'
 
-  container.insertAdjacentHTML('beforeend', renderSecretKeyForm());
+    container.insertAdjacentHTML('beforeend', renderSecretKeyForm())
 
-  // const canvas = document.createElement('canvas');
-  // canvas.id = 'game-canvas';
-  // canvas.style.height = '100%';
-  // canvas.style.width = '100%';
-  // canvas.style.backgroundColor = 'red';
+    // const canvas = document.createElement('canvas');
+    // canvas.id = 'game-canvas';
+    // canvas.style.height = '100%';
+    // canvas.style.width = '100%';
+    // canvas.style.backgroundColor = 'red';
 
-  body.appendChild(container);
-  // container.appendChild(canvas)
-})();
+    body.appendChild(container)
+    // container.appendChild(canvas)
+}())
 
 function renderSecretKeyForm() {
-  return `
+    return `
     <form id="${SECRET_KEY_FORM_ID}">
       <label for="secret-key">Secret Key:</label><br>
       <input type="text" id="secret-key" name="secret-key"><br>
@@ -45,27 +45,22 @@ function renderSecretKeyForm() {
 }
 
 function handleSecretKeyFormSubmit(e) {
-  const secretKey = document.getElementById('secret-key').value
+    const secretKey = document.getElementById('secret-key').value
 
-  const canvas = `<canvas id='main-canvas' style="height: 100%; width: 100%"></canvas>`;
-  container.innerText = "";
-  container.insertAdjacentHTML('beforeend', canvas);
+    const canvas = '<canvas id=\'main-canvas\' style="height: 100%; width: 100%"></canvas>'
+    container.innerText = ''
+    container.insertAdjacentHTML('beforeend', canvas)
 
-  main(secretKey);
-
+    main(secretKey)
 }
 
-document.addEventListener('submit', function (e) {
-  e.preventDefault();
+document.addEventListener('submit', e => {
+    e.preventDefault()
 
-  const form = e.target;
-  const formId = form.getAttribute('id');
+    const form = e.target
+    const formId = form.getAttribute('id')
 
-  if (formId === SECRET_KEY_FORM_ID) {
-    handleSecretKeyFormSubmit(e);
-    return;
-  }
-
-}, false);
-
- 
+    if (formId === SECRET_KEY_FORM_ID) {
+        handleSecretKeyFormSubmit(e)
+    }
+}, false)

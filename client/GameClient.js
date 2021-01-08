@@ -9,7 +9,7 @@ const ALLOW_ROTATION = false
 
 class GameClient {
     constructor(client) {
-        this.client = client;
+        this.client = client
         this.renderer = new PIXIRenderer()
         this.input = new InputSystem()
 
