@@ -8,20 +8,14 @@ import PIXIRenderer from './graphics/PIXIRenderer'
 const ALLOW_ROTATION = false
 
 class GameClient {
-    constructor(secret) {
-        this.client = new nengi.Client(nengiConfig)
+    constructor(client) {
+        this.client = client;
         this.renderer = new PIXIRenderer()
         this.input = new InputSystem()
-
-        this.client.onConnect(res => {
-            console.log('onConnect response:', res)
-        })
 
         this.client.onClose(() => {
             console.log('connection closed')
         })
-
-        this.client.connect('ws://localhost:8079', { secret })
     }
 
     update(delta, tick, now) {
