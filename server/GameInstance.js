@@ -15,6 +15,7 @@ class GameInstance {
         this.collisionSystem = new CollisionSystem()
         this.instance = new nengi.Instance(nengiConfig, { port: 8079 })
         this.authDatabase = new AuthDatabase()
+        this.nids = new Map()
         if (process.env.NODE_ENV === 'development') this.authDatabase.addUserWithSecret({ displayName: 'joe' }, 'MAGIC_VALUE')
         this.instance.onConnect((client, clientData, callback) => {
             const { user } = this.authDatabase.getUser(clientData.fromClient.secret) || { user: undefined }
@@ -26,6 +27,7 @@ class GameInstance {
             // create a entity for this client
             const entity = new PlayerCharacter({ name: user.displayName })
             this.instance.addEntity(entity) // adding an entity to a nengi instance assigns it an id
+            this.nids.set(user.id, entity.nid)
 
             // tell the client which entity it controls (the client will use this to follow it with the camera)
             this.instance.message(new Identity(entity.nid), client)
@@ -71,7 +73,7 @@ class GameInstance {
             }
             return
         }
-        this.instance.messageAll(new DiscordMessageReceived(msg))
+        this.instance.messageAll(new DiscordMessageReceived(msg, this.nids.get(msg.author.id)))
     }
 
     registerDiscordClient() {

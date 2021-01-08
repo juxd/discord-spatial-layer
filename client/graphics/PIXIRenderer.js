@@ -78,8 +78,7 @@ class PIXIRenderer {
             console.log('identified as', this.myId)
         } else if (message.protocol.name === 'DiscordMessageReceived') {
             console.log('rec mesage', message)
-            // TODO hard coding
-            const entity = this.entities.get(65534)
+            const entity = this.entities.get(message.authorEntityNid)
             entity.showMessage(message.content)
         }
     }
