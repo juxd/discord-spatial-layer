@@ -1,4 +1,5 @@
 import nengiConfig from '../../../common/nengiConfig';
+import main from '../../../client/clientMain';
 
 console.log(nengiConfig);
 const SECRET_KEY_FORM_ID = 'secret-key-form';
@@ -43,6 +44,7 @@ function renderSecretKeyForm() {
 
 function handleSecretKeyFormSubmit(e) {
   const secretKey = document.getElementById('secret-key').value
+  main(secretKey);
   alert(secretKey);
 }
 
