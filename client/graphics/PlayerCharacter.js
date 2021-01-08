@@ -41,7 +41,11 @@ class PlayerCharacter extends PIXI.Container {
         const { name } = entity
 
         const playerNameText = new PIXI.Text(name, {
-            fontFamily: 'Arial', fontSize: 15, fill: 0xffffff, align: 'center', wordWrapWidth: 100,
+            fontFamily: 'Arial',
+            fontSize: 15,
+            fill: 0xffffff,
+            align: 'center',
+            wordWrapWidth: 100,
             wordWrap: true,
         })
         this.playerNameText = playerNameText
@@ -54,17 +58,19 @@ class PlayerCharacter extends PIXI.Container {
         this.removeChild(this.messageBubble)
 
         const messageCanvas = new PIXI.Text(msg, {
-            fontFamily: 'Arial', fontSize: 15, fill: 0xffffff, align: 'center',
+            fontFamily: 'Arial',
+            fontSize: 15,
+            fill: 0xffffff,
+            align: 'center',
             wordWrapWidth: 200,
             wordWrap: true,
             breakWords: true,
             fill: 0xffff00,
-            leading: 0
+            leading: 0,
         })
         this.messageBubble = messageCanvas
         this.messageBubble.y = -50 - messageCanvas.height
         this.messageBubble.x = -messageCanvas.width / 2
-
 
         this.addChild(this.messageBubble)
         setTimeout(() => {
