@@ -13,7 +13,6 @@ class GameInstance {
         this.entities = new Map()
         this.collisionSystem = new CollisionSystem()
         this.instance = new nengi.Instance(nengiConfig, { port: 8079 })
-        this.globalChannel = this.instance.createChannel()
         this.authDatabase = new AuthDatabase()
         // if (process.env.NODE_ENV === 'development') this.authDatabase.addUserWithSecret({ displayName: 'joe' }, 'MAGIC_VALUE')
         this.instance.onConnect((client, clientData, callback) => {
@@ -22,7 +21,6 @@ class GameInstance {
                 callback({ accepted: false, text: 'Secret not correct!' })
                 return
             }
-            this.globalChannel.subscribe(client)
 
             // create a entity for this client
             const entity = new PlayerCharacter({ name: user.displayName })
@@ -53,7 +51,6 @@ class GameInstance {
         })
 
         this.instance.onDisconnect(client => {
-            this.globalChannel.unsubscribe(client)
             this.entities.delete(client.entity.nid)
             this.instance.removeEntity(client.entity)
         })
@@ -71,7 +68,7 @@ class GameInstance {
             }
             return
         }
-        this.globalChannel.addMessage(new DiscordMessageReceived(msg))
+        this.instance.messageAll(new DiscordMessageReceived(msg))
     }
 
     registerDiscordClient() {

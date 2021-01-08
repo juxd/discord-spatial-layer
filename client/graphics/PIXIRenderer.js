@@ -22,7 +22,16 @@ class PIXIRenderer {
 
         this.stage = new PIXI.Container()
         this.camera = new PIXI.Container()
+
         this.background = new PIXI.Container()
+        const texture = PIXI.Texture.from('./images/bg.png')
+        const tilingSprite = new PIXI.TilingSprite(
+            texture,
+            8000,
+            8000,
+        )
+        this.background.addChild(tilingSprite)
+
         this.middleground = new PIXI.Container()
         this.foreground = new PIXI.Container()
 
