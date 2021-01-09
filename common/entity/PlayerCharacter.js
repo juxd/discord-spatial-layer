@@ -14,6 +14,9 @@ class PlayerCharacter {
             y: 0,
         }
 
+        this.hat_color = `0x${Math.random().toString(16).substr(2, 6)}`
+        this.skin_color = `0x${Math.random().toString(16).substr(2, 6)}`
+
         this.name = name
 
         this.rotation = 0
@@ -86,6 +89,8 @@ PlayerCharacter.protocol = {
     name: nengi.String,
     message: nengi.String,
     mood: nengi.String,
+    skin_color: nengi.String,
+    hat_color: nengi.String,
 }
 
 export default PlayerCharacter

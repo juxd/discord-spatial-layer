@@ -2,17 +2,17 @@ import * as PIXI from 'pixi.js'
 import CONFIG from '../../common/gameConfig'
 
 class PlayerAvatar extends PIXI.Container {
-    constructor(skin_rgb) {
+    constructor(skin_rgb, hat_color) {
         super()
 
         this.body = new PIXI.Graphics()
         this.body.beginFill(0xffffff)
         this.body.drawCircle(0, 0, 25)
         this.body.endFill()
-        this.body.tint = skin_rgb
+        this.body.tint = skin_rgb || `0x${Math.random().toString(16).substr(2, 6)}`
 
         this.hat = new PIXI.Graphics()
-        this.hat.beginFill(`0x${Math.random().toString(16).substr(2, 6)}`)
+        this.hat.beginFill(hat_color || `0x${Math.random().toString(16).substr(2, 6)}`)
         this.hat.moveTo(25, 0)
         this.hat.lineTo(0, -70)
         this.hat.lineTo(-25, 0)
@@ -30,7 +30,7 @@ class PlayerCharacter extends PIXI.Container {
         this.y = entity.y
         this.mood = entity.mood
 
-        this.avatar = new PlayerAvatar(0xff0000)
+        this.avatar = new PlayerAvatar(entity.skin_color, entity.hat_color)
 
         this.addChild(this.avatar)
 
