@@ -33,37 +33,45 @@ class UI {
       `
     }
 
-    handleSecretKeyFormSubmit(e) {
+    async handleSecretKeyFormSubmit(e) {
         const secretKey = document.getElementById('secret-key').value
 
-        instantiateClient(secretKey)
-            .then(client => {
-                console.log('success')
-                const canvas = '<canvas id=\'main-canvas\' style="height: 100%; width: 100%" tabindex="1"></canvas>'
-                this.container.innerText = ''
-                this.container.insertAdjacentHTML('beforeend', canvas)
-                document.getElementById('main-canvas').focus()
-                const gameClient = new GameClient(client)
-                let tick = 0
-                let previous = performance.now()
-                const loop = function () {
-                    window.requestAnimationFrame(loop)
-                    const now = performance.now()
-                    const delta = (now - previous) / 1000
-                    previous = now
-                    tick++
+        let client;
 
-                    gameClient.update(delta, tick, now)
-                }
-
-                loop()
-            })
-            .catch(err => {
-                console.log(`error: ${err}`)
-                alert(`Connection denied.
+        try {
+            client = await instantiateClient(secretKey);
+        } catch (err) {
+            console.log(`error: ${err}`)
+            alert(`Connection denied.
 Please check that WebSocket connection is working and your secret key is correct
 `)
-            })
+            return;
+        }
+
+        try {
+            console.log('success')
+            const canvas = '<canvas id=\'main-canvas\' style="height: 100%; width: 100%" tabindex="1"></canvas>'
+            this.container.innerText = ''
+            this.container.insertAdjacentHTML('beforeend', canvas)
+            document.getElementById('main-canvas').focus()
+            const gameClient = new GameClient(client)
+            let tick = 0
+            let previous = performance.now()
+            const loop = function () {
+                window.requestAnimationFrame(loop)
+                const now = performance.now()
+                const delta = (now - previous) / 1000
+                previous = now
+                tick++
+
+                gameClient.update(delta, tick, now)
+            }
+
+            loop()
+        } catch (err) {
+            console.log(`error: ${err}`)
+            alert('Error in the game client / run loop. Please check the logs.');
+        }
     }
 }
 
